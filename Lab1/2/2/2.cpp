@@ -10,7 +10,7 @@
 
 
 using namespace std;
-void main(void)
+int main(int)
 {
 	const int N = 6;
 	int i, j, k, firstPoint, secondPoint, threePoint;
@@ -28,15 +28,11 @@ void main(void)
 		{
 			for (k = j + 1; k<N; k++)
 			{
-				if (((X[i]-X[k])*(Y[j]-Y[k])-((X[j]-X[k])*(Y[i]-Y[k]))==0))
-					continue;
-
-				a = sqrt((X[i] - X[j])*(X[i] - X[j]) + (Y[i] - Y[j])*(Y[i] - Y[j]));
-				b = sqrt((X[i] - X[k])*(X[i] - X[k]) + (Y[i] - Y[k])*(Y[i] - Y[k]));
-				c = sqrt((X[j] - X[k])*(X[j] - X[k]) + (Y[j] - Y[k])*(Y[j] - Y[k]));
-
-				if ((a + b > c) && (a + c > b) && (b + c > a))
-				{ 
+				if (((X[i]-X[k])*(Y[j]-Y[k])-((X[j]-X[k])*(Y[i]-Y[k]))!=0))
+                {
+                    a = sqrt((X[i] - X[j])*(X[i] - X[j]) + (Y[i] - Y[j])*(Y[i] - Y[j]));
+				    b = sqrt((X[i] - X[k])*(X[i] - X[k]) + (Y[i] - Y[k])*(Y[i] - Y[k]));
+				    c = sqrt((X[j] - X[k])*(X[j] - X[k]) + (Y[j] - Y[k])*(Y[j] - Y[k]));
 					p = a + b + c;
 					if (p > max)
 					{
@@ -55,5 +51,5 @@ void main(void)
 	}
 	else
 		cout << "Invalid point" << endl;
-	system("pause");
+	return 0;
 }
