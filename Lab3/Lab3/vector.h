@@ -5,7 +5,8 @@ class TArray
 private:
 	int size, begData, endData;
 	TYPE *data;
-	void create(int capacity, int len, int beg);
+	void create(int beg, int len, int capacity);
+	void moveArray(int beg, int end, TYPE *tmp);
 public:
 	TArray(int n);
 
@@ -19,7 +20,6 @@ public:
 
 	void show();
 
-	void cmpArray(int beg,int end,TYPE *tmp);
 
 	TArray& clear();
 

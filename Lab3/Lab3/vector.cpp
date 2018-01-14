@@ -9,10 +9,10 @@ template <typename TYPE> int TArray<TYPE>::length() {
 }
 
 template <typename TYPE> bool TArray<TYPE>::isEmpty() {
-	return size < 1 ? true : false;
+	return length()==0;
 }
 
-template <typename TYPE> void TArray<TYPE>::create(int capacity, int len, int beg) {
+template <typename TYPE> void TArray<TYPE>::create(int beg, int len, int capacity) {
 	if (capacity < 1) {
 		capacity = 1;
 	}
@@ -34,11 +34,11 @@ template <typename TYPE> void TArray<TYPE>::show() {
 }
 
 template <typename TYPE> TArray<TYPE>::TArray() {
-	create(1, 0, 0);
+	create(0, 0, 1);
 }
 
 template <typename TYPE> TArray<TYPE>::TArray(int n) {
-	create(n, n, 0);
+	create(0, n, n);
 }
 
 template <typename TYPE> TArray<TYPE>::~TArray() {
@@ -47,11 +47,11 @@ template <typename TYPE> TArray<TYPE>::~TArray() {
 
 template <typename TYPE> TArray<TYPE>& TArray<TYPE>::clear() {
 	delete[]data;
-	create(1, 1, 0);
+	create(0, 1, 1);
 	return *this;
 }
 
-template <typename TYPE> void TArray<TYPE>::cmpArray(int beg, int end, TYPE *tempArray) {
+template <typename TYPE> void TArray<TYPE>::moveArray(int beg, int end, TYPE *tempArray) {
 	for (int i = beg; i < end; ++i) {
 		data[begData + i] = tempArray[i];
 	}
@@ -61,8 +61,8 @@ template <typename TYPE> void TArray<TYPE>::cmpArray(int beg, int end, TYPE *tem
 template <typename TYPE> TArray<TYPE>& TArray<TYPE>::pushFront(TYPE a) {
 	if (begData == 0) {
 		TYPE *temp = data;
-		create(size + length() / 2 + 1, length(), begData + length() / 2 + 1);
-		cmpArray(0,length(),temp);
+		create(begData + length() / 2 + 1, length(), size + length() / 2 + 1);
+		moveArray(0,length(),temp);
 	}
 	--begData;
 	data[begData] = a;
@@ -72,8 +72,8 @@ template <typename TYPE> TArray<TYPE>& TArray<TYPE>::pushFront(TYPE a) {
 template <typename TYPE> TArray<TYPE>& TArray<TYPE>::pushBack(TYPE a) {
 	if (endData == size) {
 		TYPE *temp = data;
-		create(size + length() / 2 + 1, length(), begData);
-		cmpArray(begData, endData, temp);
+		create(begData, length(), size + length() / 2 + 1);
+		moveArray(begData, endData, temp);
 	}
 	data[endData] = a;
 	++endData;
@@ -84,7 +84,7 @@ template <typename TYPE> TYPE TArray<TYPE>::popFront() {
 	if (begData > length()) {
 		TYPE *temp = data;
 		int begTemp = begData;
-		create(size - begData, length(), 0);
+		create(0, length(), size - begData);
 		for (int i = 0; i < length(); ++i){
 			data[i] = temp[begTemp + i];
 		}
@@ -99,7 +99,7 @@ template <typename TYPE> TYPE TArray<TYPE>::popFront() {
 template <typename TYPE> TYPE TArray<TYPE>::popBack() {
 	if (size - endData > length()) {
 		TYPE *temp = data;
-		create(endData, length(), begData);
+		create(begData, length(), endData);
 		for (int i = begData; i < endData; ++i)
 			data[i] = temp[i];
 		delete[]temp;
@@ -111,11 +111,5 @@ template <typename TYPE> TYPE TArray<TYPE>::popBack() {
 }
 
 template <typename TYPE> TYPE& TArray<TYPE>::operator [] (int i) {
-	if (i < 0) {
-		i = 0;
-	}
-	else if (i >= length()) {
-		i = length() - 1;
-	}
 	return data[begData + i];
 }
